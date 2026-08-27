@@ -1,0 +1,76 @@
+/* Contenedor principal con la imagen de fondo */
+.mainFxmlClass {
+    -fx-background-image: url("fondo-gotitas.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Contenedor secundario tipo tarjeta (con efecto glassmorphism para que resalte sobre la imagen) */
+.test-class {
+    -fx-background-color: rgba(17, 42, 36, 0.65);
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 25, 0, 0, 10);
+}
+
+/* Etiquetas */
+.label {
+    -fx-text-fill: #e2e8f0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Campos de texto */
+.text-field, .password-field {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-border-width: 1px;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.4);
+    -fx-padding: 10px 15px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #2ecc71;
+    -fx-background-color: rgba(0, 0, 0, 0.45);
+    -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.3), 10, 0, 0, 0);
+}
+
+/* Botón con diseño avanzado en tonos verdes */
+.button {
+    -fx-background-color: 
+        linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(0,0,0,0.1)),
+        linear-gradient(to right, #2ecc71, #27ae60);
+    -fx-background-radius: 8px;
+    -fx-border-color: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(255,255,255,0));
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: 
+        linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(0,0,0,0.1)),
+        linear-gradient(to right, #3ada7a, #2ecc71);
+    -fx-border-color: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0));
+    -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.4), 12, 0, 0, 4);
+}
+
+.button:pressed {
+    -fx-background-color: 
+        linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2)),
+        linear-gradient(to right, #259c55, #1e8449);
+    -fx-effect: null;
+    -fx-translate-y: 1px;
+}
