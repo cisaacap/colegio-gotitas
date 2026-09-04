@@ -40,7 +40,7 @@ public class SceneManager {
         }
         });
         Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
         primaryStage.show();
@@ -63,7 +63,7 @@ public class SceneManager {
         }
         );
         Parent root = loader.load();
-        Scene scene = new Scene(root , 980, 400);
+        Scene scene = new Scene(root , 980, 450);
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
         primaryStage.show();

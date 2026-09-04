@@ -10,12 +10,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="980.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.ingsoft.colegio.gotitas.controller.DashboardController">
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="980.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.ingsoft.colegio.gotitas.controller.DashboardController">
     <stylesheets>
         <URL value="@/main/resources/css/styles.css" />
     </stylesheets>
    <children>
-      <GridPane prefHeight="400.0" prefWidth="980.0" AnchorPane.leftAnchor="0.0">
+      <GridPane prefHeight="450.0" prefWidth="980.0" AnchorPane.leftAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
