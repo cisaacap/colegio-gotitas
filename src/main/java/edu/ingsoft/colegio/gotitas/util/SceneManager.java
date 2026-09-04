@@ -63,7 +63,7 @@ public class SceneManager {
         }
         );
         Parent root = loader.load();
-        Scene scene = new Scene(root , 700, 400);
+        Scene scene = new Scene(root , 980, 400);
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
         primaryStage.show();
