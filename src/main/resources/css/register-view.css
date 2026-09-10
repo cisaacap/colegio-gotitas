@@ -1,0 +1,97 @@
+/* ==========================================================
+   HOJA DE ESTILOS: register-view.css (Estilo Sofisticado / Glassmorphism)
+   ================ ========================================== */
+
+/* Fondo general de la ventana */
+.glass-root {
+    -fx-background-color: #0b132b;
+}
+
+/* Capa semitransparente sobre la imagen de fondo para mejorar el contraste y legibilidad */
+.background-overlay {
+    -fx-background-color: rgba(11, 19, 43, 0.55);
+}
+
+/* Tarjeta central con efecto Glassmorphism refinado */
+.glass-card {
+    -fx-background-color: rgba(20, 30, 55, 0.65);
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-border-color: rgba(255, 255, 255, 0.18);
+    -fx-border-width: 1.2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 25, 0, 0, 10);
+}
+
+/* Título principal */
+.glass-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Subtítulo descriptivo */
+.glass-subtitle {
+    -fx-text-fill: rgba(255, 255, 255, 0.65);
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Etiquetas del formulario */
+.glass-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.85);
+    -fx-font-size: 11.5px;
+    -fx-font-weight: 600;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Campos de texto y selectores de fecha estéticos */
+.glass-text-field, .glass-date-picker {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.35);
+    -fx-padding: 6px 12px;
+    -fx-font-size: 13px;
+}
+
+.glass-text-field:focused, .glass-date-picker:focused {
+    -fx-background-color: rgba(255, 255, 255, 0.14);
+    -fx-border-color: #00d2fc;
+    -fx-border-width: 1.5px;
+}
+
+/* Botón Principal de Acción */
+.glass-button-primary {
+    -fx-background-color: linear-gradient(to right, #00b4db, #0083b0);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13.5px;
+    -fx-background-radius: 10;
+    -fx-padding: 11px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 180, 219, 0.3), 10, 0, 0, 4);
+}
+
+.glass-button-primary:hover {
+    -fx-background-color: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+/* Botón Secundario */
+.glass-button-secondary {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-font-size: 13px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-padding: 10px;
+    -fx-cursor: hand;
+}
+
+.glass-button-secondary:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+}
