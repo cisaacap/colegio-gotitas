@@ -1,8 +1,10 @@
 package main.java.edu.ingsoft.colegio.gotitas.repository;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import main.java.edu.ingsoft.colegio.gotitas.config.DataBaseConnection;
 import main.java.edu.ingsoft.colegio.gotitas.dto.request.LoginRequest;
 import main.java.edu.ingsoft.colegio.gotitas.dto.request.RegisterRequest;
@@ -11,19 +13,30 @@ import main.java.edu.ingsoft.colegio.gotitas.dto.response.RegisterResponse;
 
 public class AuthRepository {
 
-    // Atributos
-    private boolean sqlStatus = false;
+    // Constante para el rol de Docente (id_rol = 2)
+    private static final int ROL_DOCENTE = 2;
 
     public LoginResponse findUserByEmail(LoginRequest loginRequest) throws Exception {
-        String sql = "select d.nombre, d.apellido, u.contrasena_hash from usuarios as u"
-                + " right join docentes as d"
-                + " on d.id_docente = u.id_docente"
-                + " where u.email = ? ";
+        // Consulta que busca en usuarios y obtiene nombre y apellido desde la tabla que corresponda
+        String sql = "SELECT "
+                + "  COALESCE(d.nombre, doc.nombre, e.nombre) AS nombre, "
+                + "  COALESCE(d.apellido, doc.apellido, e.apellido) AS apellido, "
+                + "  u.contrasena_hash "
+                + "FROM usuarios u "
+                + "LEFT JOIN director d ON u.id_usuario = d.id_usuario "
+                + "LEFT JOIN docentes doc ON u.id_usuario = doc.id_usuario "
+                + "LEFT JOIN estudiantes e ON u.id_usuario = e.id_usuario "
+                + "WHERE u.email = ?";
+
         try (PreparedStatement pstm = DataBaseConnection.getConnectionDataBase().prepareStatement(sql)) {
             pstm.setString(1, loginRequest.getEmail());
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
-                return new LoginResponse(rs.getString("nombre"), rs.getString("apellido"), rs.getString("contrasena_hash"));
+                return new LoginResponse(
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("contrasena_hash")
+                );
             }
         } catch (SQLException e) {
             System.out.println("Error al encontrar el EMAIL: " + e.getMessage());
@@ -32,43 +45,49 @@ public class AuthRepository {
     }
 
     public RegisterResponse saveDocente(RegisterRequest registerRequest) throws Exception {
-        // Consultas SQL adaptadas al esquema de docentes y usuarios
-        String docenteSql = "insert into docentes (id_docente, nombre, apellido, correo_electronico) values (?, ?, ?, ?)";
-        String userSql = "insert into usuarios (id_usuario, id_docente, contrasena_hash, id_rol, email) values (uuid(), ?, ?, ?, ?)";
+        // Consultas ajustadas a las llaves primarias autoincrementables
+        String userSql = "INSERT INTO usuarios (id_rol, email, contrasena_hash) VALUES (?, ?, ?)";
+        String docenteSql = "INSERT INTO docentes (id_usuario, nombre, apellido) VALUES (?, ?, ?)";
 
-        java.sql.Connection conn = null;
+        Connection conn = null;
 
         try {
             conn = DataBaseConnection.getConnectionDataBase();
             conn.setAutoCommit(false); // Iniciamos la transacción
 
-            // Generar un ID único para el docente (puedes usar UUID o una lógica propia, ej: UUID aleatorio o secuencial)
-            String idDocenteGenerado = java.util.UUID.randomUUID().toString();
+            int idUsuarioGenerado = -1;
 
-            // 1. Insertar en la tabla docentes
+            // 1. Insertar primero en la tabla usuarios (generando id_usuario autoincremental)
+            try (PreparedStatement pstmUser = conn.prepareStatement(userSql, Statement.RETURN_GENERATED_KEYS)) {
+                pstmUser.setInt(1, ROL_DOCENTE); // Rol 2 = Docente
+                pstmUser.setString(2, registerRequest.getEmail());
+                pstmUser.setString(3, registerRequest.getContrasenaHashed());
+                pstmUser.executeUpdate();
+
+                // Obtener el ID generado para el usuario recién insertado
+                try (ResultSet generatedKeys = pstmUser.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        idUsuarioGenerado = generatedKeys.getInt(1);
+                    } else {
+                        throw new SQLException("No se pudo obtener el ID del usuario generado.");
+                    }
+                }
+            }
+
+            // 2. Insertar en la tabla docentes relacionándolo con id_usuario
             try (PreparedStatement pstmDocente = conn.prepareStatement(docenteSql)) {
-                pstmDocente.setString(1, idDocenteGenerado);
+                pstmDocente.setInt(1, idUsuarioGenerado);
                 pstmDocente.setString(2, registerRequest.getNombre());
                 pstmDocente.setString(3, registerRequest.getApellido());
-                pstmDocente.setString(4, registerRequest.getEmail());
                 pstmDocente.executeUpdate();
             }
 
-            // 2. Insertar en la tabla usuarios relacionándolo con el docente recién creado
-            try (PreparedStatement pstmUser = conn.prepareStatement(userSql)) {
-                pstmUser.setString(1, idDocenteGenerado); // Llave foránea hacia docentes
-                pstmUser.setString(2, registerRequest.getContrasenaHashed());
-                pstmUser.setInt(3, 1); // Rol por defecto (ej: 1 = usuario / docente)
-                pstmUser.setString(4, registerRequest.getEmail());
-                pstmUser.executeUpdate();
-            }
-
-            // Si todo sale bien, confirmamos la transacción
+            // Si ambas inserciones fueron exitosas, confirmamos la transacción
             conn.commit();
             return new RegisterResponse(true, "Docente registrado exitosamente", registerRequest.getNombre());
 
         } catch (SQLException e) {
-            // En caso de fallar, revertimos los cambios realizados
+            // Revertir cambios en caso de error
             if (conn != null) {
                 try {
                     conn.rollback();
@@ -79,7 +98,7 @@ public class AuthRepository {
             System.out.println("Error en saveDocente: " + e.getMessage());
             return new RegisterResponse(false, "Error de SQL: " + e.getMessage());
         } finally {
-            // Restauramos el comportamiento por defecto de la conexión
+            // Restaurar el comportamiento de autoCommit
             if (conn != null) {
                 try {
                     conn.setAutoCommit(true);

@@ -15,14 +15,14 @@
 
 <BorderPane id="BorderPane" fx:id="rootPane" prefHeight="650.0" prefWidth="1100.0" stylesheets="@/main/resources/css/dashboard-view.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.ingsoft.colegio.gotitas.controller.DashboardController">
 
-    <!-- Panel Lateral Moderno (Sidebar estilo Glassmorphism/Dashboard) -->
+    <!-- Panel Lateral Moderno (Sidebar) -->
     <left>
         <VBox alignment="TOP_CENTER" prefWidth="260.0" spacing="24.0" styleClass="glass-card" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="24.0" left="20.0" right="20.0" top="28.0" />
             </padding>
             <children>
-                <!-- Identidad de la App / Logo o Icono -->
+                <!-- Identidad de la App / Logo -->
                 <VBox alignment="CENTER" spacing="8.0">
                     <children>
                         <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
@@ -35,7 +35,7 @@
                     </children>
                 </VBox>
 
-                <!-- Menú de Acciones CRUD (Sofisticado y Vertical) -->
+                <!-- Menú de Acciones CRUD -->
                 <VBox alignment="CENTER" spacing="14.0" VBox.vgrow="ALWAYS">
                     <children>
                         <Button fx:id="btnCrear" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleCrear" styleClass="glass-button-primary" text="Nuevo Estudiante">
@@ -58,7 +58,7 @@
                     </children>
                 </VBox>
 
-                <!-- Sección Inferior / Salida -->
+                <!-- Salida / Cierre de Sesión -->
                 <VBox alignment="CENTER" spacing="10.0">
                     <children>
                         <Button fx:id="btnCerrarSesion" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleCerrarSesion" styleClass="glass-button-secondary" text="Cerrar Sesión">
@@ -75,14 +75,14 @@
         </VBox>
     </left>
 
-    <!-- Panel Central: Contenido Principal y Tabla Interactiva -->
+    <!-- Panel Central: Contenido Principal y Tabla -->
     <center>
         <VBox spacing="16.0" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
             </padding>
             <children>
-                <!-- Cabecera Superior del Dashboard -->
+                <!-- Cabecera Superior -->
                 <HBox alignment="CENTER_LEFT" styleClass="glass-card">
                     <padding>
                         <Insets bottom="16.0" left="20.0" right="20.0" top="16.0" />
@@ -92,7 +92,7 @@
                     </children>
                 </HBox>
 
-                <!-- Tabla de Datos Refinada y Adaptativa -->
+                <!-- Tabla de Datos -->
                 <TableView fx:id="tvEstudiantes" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="tvColumnIdEstudiante" prefWidth="60.0" text="ID" />

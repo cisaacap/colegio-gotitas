@@ -2,7 +2,6 @@ package main.java.edu.ingsoft.colegio.gotitas.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.java.edu.ingsoft.colegio.gotitas.dto.request.RegisterRequest;
@@ -10,9 +9,6 @@ import main.java.edu.ingsoft.colegio.gotitas.dto.response.RegisterResponse;
 import main.java.edu.ingsoft.colegio.gotitas.service.AuthService;
 import main.java.edu.ingsoft.colegio.gotitas.util.SceneManager;
 import main.java.edu.ingsoft.colegio.gotitas.security.jbcrypt.BCrypt;
-
-import java.time.ZoneId;
-import java.util.Date;
 
 public class RegisterController {
 
@@ -28,7 +24,9 @@ public class RegisterController {
     @FXML
     private PasswordField txtFieldPass;
     @FXML
-    private DatePicker datePickerFechaNacimiento;
+    private TextField txtFieldTelefono;
+    @FXML
+    private TextField txtFieldEspecialidad;
 
     public RegisterController(SceneManager stage, AuthService userRepo) {
         this.stage = stage;
@@ -38,40 +36,56 @@ public class RegisterController {
     @FXML
     private void handleRegister() {
         try {
-            // Validar campos obligatorios básicos según la vista FXML
+            // 1. Validar campos obligatorios vacíos
             if (txtFieldNombre.getText().trim().isEmpty()
                     || txtFieldApellido.getText().trim().isEmpty()
                     || txtFieldEmail.getText().trim().isEmpty()
                     || txtFieldPass.getText().trim().isEmpty()) {
-                mostrarAlerta(Alert.AlertType.WARNING, "Campos incompletos", "Por favor completa todos los campos obligatorios.");
+                mostrarAlerta(Alert.AlertType.WARNING, "Campos incompletos", "Por favor completa los campos obligatorios (Nombre, Apellido, Correo y Contraseña).");
                 return;
             }
 
-            // Recoger datos de la vista
             String nombre = txtFieldNombre.getText().trim();
             String apellido = txtFieldApellido.getText().trim();
             String email = txtFieldEmail.getText().trim();
-            
-            // Aplicar hashing seguro a la contraseña con BCrypt
-            String contrasenaHashed = BCrypt.hashpw(txtFieldPass.getText(), BCrypt.gensalt());
+            String password = txtFieldPass.getText();
+            String telefono = txtFieldTelefono.getText().trim();
+            String especialidad = txtFieldEspecialidad.getText().trim();
 
-            // Convertir LocalDate de JavaFX a java.util.Date si la vista lo provee
-            Date fechaNacimiento = null;
-            if (datePickerFechaNacimiento != null && datePickerFechaNacimiento.getValue() != null) {
-                fechaNacimiento = Date.from(datePickerFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            // 2. Validar formato de correo electrónico
+            if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")) {
+                mostrarAlerta(Alert.AlertType.WARNING, "Correo inválido", "Por favor ingresa una dirección de correo electrónico válida.");
+                txtFieldEmail.requestFocus();
+                return;
             }
 
-            // Construir el objeto Request para el registro de docentes
+            // 3. Validar longitud mínima de la contraseña (ej. mínimo 6 caracteres)
+            if (password.length() < 6) {
+                mostrarAlerta(Alert.AlertType.WARNING, "Contraseña débil", "La contraseña debe tener al menos 6 caracteres.");
+                txtFieldPass.requestFocus();
+                return;
+            }
+
+            // 4. Validar formato de teléfono (opcional, solo si se llena y contiene letras)
+            if (!telefono.isEmpty() && !telefono.matches("^[0-9+\\-\\s()]{7,15}$")) {
+                mostrarAlerta(Alert.AlertType.WARNING, "Teléfono inválido", "Por favor ingresa un número de teléfono válido.");
+                txtFieldTelefono.requestFocus();
+                return;
+            }
+
+            // Aplicar hashing seguro a la contraseña con BCrypt
+            String contrasenaHashed = BCrypt.hashpw(password, BCrypt.gensalt());
+
+            // Construir el objeto Request
             RegisterRequest request = new RegisterRequest(
-                    null, // idDocente (generado en repositorio)
+                    null, // idDocente
                     email,
                     contrasenaHashed,
-                    1, // idRol por defecto (1 = usuario)
-                    null, // idEstudiante
-                    null, // idCiudad
+                    2, // idRol: 2 = Docente
                     nombre,
                     apellido,
-                    fechaNacimiento
+                    telefono.isEmpty() ? null : telefono,
+                    especialidad.isEmpty() ? null : especialidad
             );
 
             // Llamada al servicio para guardar el docente
@@ -105,8 +119,11 @@ public class RegisterController {
         txtFieldApellido.clear();
         txtFieldEmail.clear();
         txtFieldPass.clear();
-        if (datePickerFechaNacimiento != null) {
-            datePickerFechaNacimiento.setValue(null);
+        if (txtFieldTelefono != null) {
+            txtFieldTelefono.clear();
+        }
+        if (txtFieldEspecialidad != null) {
+            txtFieldEspecialidad.clear();
         }
     }
 

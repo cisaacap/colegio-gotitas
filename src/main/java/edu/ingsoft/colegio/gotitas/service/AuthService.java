@@ -9,10 +9,8 @@ import main.java.edu.ingsoft.colegio.gotitas.security.jbcrypt.BCrypt;
 
 public class AuthService {
 
-    // Atributo
     private final AuthRepository authRepository;
 
-    // Constructor
     public AuthService(AuthRepository authRepository) {
         this.authRepository = authRepository;
     }
@@ -20,33 +18,51 @@ public class AuthService {
     public LoginResponse login(LoginRequest loginRequest) throws Exception {
         if (loginRequest == null) {
             throw new RuntimeException("Credenciales vacías.");
-        } else if (loginRequest.getEmail() == null || loginRequest.getPassword() == null) {
+        } else if (loginRequest.getEmail() == null || loginRequest.getEmail().trim().isEmpty()
+                || loginRequest.getPassword() == null || loginRequest.getPassword().trim().isEmpty()) {
             throw new RuntimeException("El correo o la contraseña no pueden estar vacíos.");
         }
+
         LoginResponse response = authRepository.findUserByEmail(loginRequest);
 
         if (response == null) {
             throw new RuntimeException("Usuario no encontrado.");
         }
+
         String contrasenaHashed = response.getContrasena_hash();
 
         if (contrasenaHashed == null) {
-            throw new RuntimeException("Contraseña inválida.");
-        } else {
-            if (BCrypt.checkpw(loginRequest.getPassword(), contrasenaHashed)) {
-                return response;
-            }
+            throw new RuntimeException("Contraseña inválida en el sistema.");
         }
-        return null;
+
+        if (BCrypt.checkpw(loginRequest.getPassword(), contrasenaHashed)) {
+            return response;
+        } else {
+            throw new RuntimeException("Contraseña incorrecta.");
+        }
     }
 
     public RegisterResponse saveDocente(RegisterRequest request) throws Exception {
-        // Validación opcional antes de guardar al docente si lo consideras necesario
         if (request == null) {
             throw new RuntimeException("Los datos de registro no pueden estar vacíos.");
         }
 
-        // Llamada al repositorio actualizado para registrar al docente
+        // Validaciones de negocio robustas
+        if (request.getEmail() == null || request.getEmail().trim().isEmpty()) {
+            throw new RuntimeException("El correo electrónico es obligatorio.");
+        }
+        if (!request.getEmail().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")) {
+            throw new RuntimeException("El formato del correo electrónico no es válido.");
+        }
+        if (request.getContrasenaHashed() == null || request.getContrasenaHashed().trim().isEmpty()) {
+            throw new RuntimeException("La contraseña es obligatoria.");
+        }
+        if (request.getNombre() == null || request.getNombre().trim().isEmpty()
+                || request.getApellido() == null || request.getApellido().trim().isEmpty()) {
+            throw new RuntimeException("El nombre y el apellido son obligatorios.");
+        }
+
+        // Llamada al repositorio para registrar al docente
         return authRepository.saveDocente(request);
     }
 }

@@ -19,7 +19,7 @@
 
     <children>
         <!-- Imagen de Fondo y Capa de Oscurecimiento (Overlay) responsivas -->
-        <ImageView fx:id="backgroundImage" fitHeight="700.0" fitWidth="650.0" pickOnBounds="false" preserveRatio="false" StackPane.alignment="CENTER">
+        <ImageView fx:id="backgroundImage" fitHeight="750.0" fitWidth="650.0" pickOnBounds="false" preserveRatio="false" StackPane.alignment="CENTER">
             <image>
                 <Image url="@../images/fondo-gotitas.jpg" />
             </image>
@@ -27,10 +27,10 @@
         
         <StackPane styleClass="background-overlay" mouseTransparent="true" />
 
-        <!-- Contenedor Glassmorphism Principal (Tarjeta Central Centrada y Adaptativa) -->
-        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="450.0" minWidth="380.0" spacing="18.0" styleClass="glass-card" StackPane.alignment="CENTER">
+        <!-- Contenedor Glassmorphism Principal -->
+        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="480.0" minWidth="380.0" spacing="15.0" styleClass="glass-card" StackPane.alignment="CENTER">
             <padding>
-                <Insets bottom="32.0" left="35.0" right="35.0" top="32.0" />
+                <Insets bottom="25.0" left="35.0" right="35.0" top="25.0" />
             </padding>
             <StackPane.margin>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -38,9 +38,9 @@
             
             <children>
                 <!-- Cabecera / Identidad Visual -->
-                <VBox alignment="CENTER" spacing="6.0">
+                <VBox alignment="CENTER" spacing="4.0">
                     <children>
-                        <ImageView fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" styleClass="header-icon">
+                        <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" styleClass="header-icon">
                             <image>
                                 <Image url="@../images/user.png" />
                             </image>
@@ -50,13 +50,17 @@
                     </children>
                 </VBox>
 
-                <!-- Formulario Organizado para Docentes -->
-                <GridPane hgap="14.0" vgap="12.0">
+                <!-- Formulario Organizado para Docentes (Alineado con tablas: usuarios y docentes) -->
+                <GridPane hgap="14.0" vgap="10.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="150.0" />
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="150.0" />
                     </columnConstraints>
                     <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
@@ -74,7 +78,7 @@
                         <Label text="Apellido" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="glass-label" />
                         <TextField fx:id="txtFieldApellido" promptText="Ej. Pérez" styleClass="glass-text-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                        <!-- Correo -->
+                        <!-- Correo Electrónico (Tabla usuarios) -->
                         <Label text="Correo Electrónico" GridPane.columnSpan="2" GridPane.rowIndex="2" styleClass="glass-label" />
                         <TextField fx:id="txtFieldEmail" promptText="docente@colegio.edu" styleClass="glass-text-field" GridPane.columnSpan="2" GridPane.rowIndex="3">
                             <cursor>
@@ -82,14 +86,22 @@
                             </cursor>
                         </TextField>
 
-                        <!-- Contraseña -->
+                        <!-- Contraseña (Tabla usuarios -> contrasena_hash) -->
                         <Label text="Contraseña" GridPane.columnSpan="2" GridPane.rowIndex="4" styleClass="glass-label" />
                         <PasswordField fx:id="txtFieldPass" promptText="••••••••••••" styleClass="glass-text-field" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+
+                        <!-- Teléfono (Tabla docentes) -->
+                        <Label text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="6" styleClass="glass-label" />
+                        <TextField fx:id="txtFieldTelefono" promptText="Ej. 5555-5555" styleClass="glass-text-field" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+
+                        <!-- Especialidad (Tabla docentes) -->
+                        <Label text="Especialidad" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="glass-label" />
+                        <TextField fx:id="txtFieldEspecialidad" promptText="Ej. Matemáticas" styleClass="glass-text-field" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                     </children>
                 </GridPane>
 
                 <!-- Botones de Acción -->
-                <VBox alignment="CENTER" spacing="12.0">
+                <VBox alignment="CENTER" spacing="10.0">
                     <children>
                         <Button fx:id="btnRegistrar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegister" styleClass="glass-button-primary" text="Completar Registro">
                             <cursor>
@@ -104,7 +116,7 @@
                         </Button>
                     </children>
                     <VBox.margin>
-                        <Insets top="8.0" />
+                        <Insets top="5.0" />
                     </VBox.margin>
                 </VBox>
             </children>
