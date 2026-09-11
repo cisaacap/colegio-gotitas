@@ -1,12 +1,13 @@
 package main.java.edu.ingsoft.colegio.gotitas.dto.request;
 
 public class LoginRequest {
+
     //
     private String email;
     private String password;
-    
+
     //constructor
-    public LoginRequest(String email, String password){
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -26,6 +27,4 @@ public class LoginRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-           
-    
 }

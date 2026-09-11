@@ -41,17 +41,20 @@ public class LoginController implements Initializable {
             //lanzamos una excepcion
             sceneManager.showInfoAlert("Campos faltantes", "Revisar la informacion", "uno o mas campos estan vacios", Alert.AlertType.INFORMATION);
         } else {
-            try{
-            LoginResponse responseService = authService.login(new LoginRequest(txtFieldEmail.getText(), txtFieldPass.getText()));
-            LoginResponse userLogged = new LoginResponse(responseService.getNombre(), responseService.getApellido());
-            sceneManager.showInfoAlert("Bienvendo a Gotitas del Saber", "Inicio exitoso", "Bienvenido: " + userLogged.getNombre(), Alert.AlertType.INFORMATION);
-            sceneManager.showDashBoardView();
-            }catch(RuntimeException e){
+            try {
+                LoginResponse responseService = authService.login(new LoginRequest(txtFieldEmail.getText(), txtFieldPass.getText()));
+                LoginResponse userLogged = new LoginResponse(responseService.getNombre(), responseService.getApellido());
+                sceneManager.showInfoAlert("Bienvendo a Gotitas del Saber", "Inicio exitoso", "Bienvenido: " + userLogged.getNombre(), Alert.AlertType.INFORMATION);
+                sceneManager.showDashBoardView();
+            } catch (RuntimeException e) {
                 sceneManager.showInfoAlert("Datos incorrectos", "Revisa tu informacion", "Intenta de nuevo", Alert.AlertType.INFORMATION);
             }
-            
-        }
-        //llamar al nuevo metodo
+
+        }//llamar al nuevo metodo
+    }
+
+    public void handleRegister() throws Exception {
+        sceneManager.showRegisterView();
     }
 }
 

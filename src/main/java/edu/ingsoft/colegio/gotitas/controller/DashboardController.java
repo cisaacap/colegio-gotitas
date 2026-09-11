@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -12,6 +13,7 @@ import main.java.edu.ingsoft.colegio.gotitas.service.DashBoardService;
 import main.java.edu.ingsoft.colegio.gotitas.util.SceneManager;
 
 public class DashboardController implements Initializable {
+
     private DashBoardService dashboardService;
     private SceneManager sceneManager;
 
@@ -33,18 +35,27 @@ public class DashboardController implements Initializable {
     private TableColumn<Estudiante, String> tvColumnNombreDocente;
     @FXML
     private TableColumn<Estudiante, String> tvColumnApellidoDocente;
-    
-    public DashboardController(DashBoardService dashboardService, SceneManager sceneManager){
+
+    @FXML
+    private Button btnCrear;
+    @FXML
+    private Button btnActualizar;
+    @FXML
+    private Button btnEliminar;
+    @FXML
+    private Button btnCerrarSesion;
+
+    public DashboardController(DashBoardService dashboardService, SceneManager sceneManager) {
         this.dashboardService = dashboardService;
         this.sceneManager = sceneManager;
     }
-    
+
     @Override
-    public void initialize(URL url, ResourceBundle rb){
-        handleLoadTableStudent();    
+    public void initialize(URL url, ResourceBundle rb) {
+        handleLoadTableStudent();
     }
-    
-    private void handleLoadTableStudent(){
+
+    private void handleLoadTableStudent() {
         tvColumnIdEstudiante.setCellValueFactory(new PropertyValueFactory<>("idEstudiante"));
         tvColumnNombreEstudiante.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         tvColumnApellidoEstudiante.setCellValueFactory(new PropertyValueFactory<>("apellido"));
@@ -54,5 +65,29 @@ public class DashboardController implements Initializable {
         tvColumnNombreDocente.setCellValueFactory(new PropertyValueFactory<>("nombreDocente"));
         tvColumnApellidoDocente.setCellValueFactory(new PropertyValueFactory<>("apellidoDocente"));
         tvEstudiantes.setItems(dashboardService.listStudent());
+    }
+
+    @FXML
+    private void handleCrear() {
+        // Lógica para abrir vista o modal de creación de estudiante
+    }
+
+    @FXML
+    private void handleActualizar() {
+        // Lógica para actualizar el estudiante seleccionado
+    }
+
+    @FXML
+    private void handleEliminar() {
+        // Lógica para eliminar el estudiante seleccionado
+    }
+
+    @FXML
+    private void handleCerrarSesion() {
+        try {
+            sceneManager.showLoginView();
+        } catch (Exception e) {
+            sceneManager.showInfoAlert("Error", "No se pudo cerrar sesión", e.getMessage(), javafx.scene.control.Alert.AlertType.ERROR);
+        }
     }
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <?import java.net.URL?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -43,3 +44,118 @@
       </GridPane>
    </children>
 </AnchorPane>
+=======
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane id="BorderPane" fx:id="rootPane" prefHeight="650.0" prefWidth="1100.0" stylesheets="@/main/resources/css/dashboard-view.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.ingsoft.colegio.gotitas.controller.DashboardController">
+
+    <!-- Panel Lateral Moderno (Sidebar estilo Glassmorphism/Dashboard) -->
+    <left>
+        <VBox alignment="TOP_CENTER" prefWidth="260.0" spacing="24.0" styleClass="glass-card" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="24.0" left="20.0" right="20.0" top="28.0" />
+            </padding>
+            <children>
+                <!-- Identidad de la App / Logo o Icono -->
+                <VBox alignment="CENTER" spacing="8.0">
+                    <children>
+                        <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/user.png" />
+                            </image>
+                        </ImageView>
+                        <Label styleClass="glass-title" text="Panel Directivo" />
+                        <Label styleClass="glass-subtitle" text="Colegio Gotitas" />
+                    </children>
+                </VBox>
+
+                <!-- Menú de Acciones CRUD (Sofisticado y Vertical) -->
+                <VBox alignment="CENTER" spacing="14.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Button fx:id="btnCrear" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleCrear" styleClass="glass-button-primary" text="Nuevo Estudiante">
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+
+                        <Button fx:id="btnActualizar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleActualizar" styleClass="glass-button-secondary" text="Modificar Datos">
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+
+                        <Button fx:id="btnEliminar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleEliminar" styleClass="glass-button-danger" text="Eliminar Registro">
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </children>
+                </VBox>
+
+                <!-- Sección Inferior / Salida -->
+                <VBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Button fx:id="btnCerrarSesion" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleCerrarSesion" styleClass="glass-button-secondary" text="Cerrar Sesión">
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="16.0" left="16.0" top="16.0" />
+            </BorderPane.margin>
+        </VBox>
+    </left>
+
+    <!-- Panel Central: Contenido Principal y Tabla Interactiva -->
+    <center>
+        <VBox spacing="16.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+            </padding>
+            <children>
+                <!-- Cabecera Superior del Dashboard -->
+                <HBox alignment="CENTER_LEFT" styleClass="glass-card">
+                    <padding>
+                        <Insets bottom="16.0" left="20.0" right="20.0" top="16.0" />
+                    </padding>
+                    <children>
+                        <Label styleClass="glass-title" text="Gestión de Estudiantes e Inscripciones" HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+
+                <!-- Tabla de Datos Refinada y Adaptativa -->
+                <TableView fx:id="tvEstudiantes" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="tvColumnIdEstudiante" prefWidth="60.0" text="ID" />
+                        <TableColumn fx:id="tvColumnNombreEstudiante" prefWidth="110.0" text="Nombre" />
+                        <TableColumn fx:id="tvColumnApellidoEstudiante" prefWidth="110.0" text="Apellido" />
+                        <TableColumn fx:id="tvColumnCorreo" prefWidth="160.0" text="Correo Electrónico" />
+                        <TableColumn fx:id="tvColumnSeccion" prefWidth="80.0" text="Sección" />
+                        <TableColumn fx:id="tvColumnCurso" prefWidth="80.0" text="Curso" />
+                        <TableColumn fx:id="tvColumnNombreDocente" prefWidth="110.0" text="Docente" />
+                        <TableColumn fx:id="tvColumnApellidoDocente" prefWidth="110.0" text="Apellido Doc." />
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
+>>>>>>> f/2023215
